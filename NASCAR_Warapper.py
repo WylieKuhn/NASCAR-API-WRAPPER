@@ -171,6 +171,7 @@ class NASCARWarpper:
         except Exception as e:
             return e
 
+#In progress
     def get_lap_data(self,race_id, lap_number = None, as_dataframe=False, year=datetime.now().year, series=1):
         try:
             response = requests.get(f"https://cf.nascar.com/cacher/{year}/{series}/{race_id}/lap-times.json")
