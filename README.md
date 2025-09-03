@@ -37,4 +37,10 @@ For instance, to get all the pit stop data for the last race:
 ```python
 api = NASCARWarpper()
 pit_stop_data = api.get_pit_data(as_dataframe=True, series=int(api.get_finished_races()[-1]["series_id"]), race_id=api.get_finished_races()[-1]["race_id"]))
+```  
+  
+Getting the driver data for the last race ran would simply look like this:  
+```python
+api = NASCARWarpper()
+winner = api.get_race_results(race_id=api.get_finished_races()[-1]["race_id"], year=datetime.now().year)[0]
 ```

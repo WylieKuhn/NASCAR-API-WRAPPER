@@ -1,9 +1,6 @@
 import pandas as pd
 from datetime import datetime
 import requests
-import json
-
-
 
 class NASCARWarpper:
     def __init__(self):
@@ -304,6 +301,3 @@ Currently the availible methods are:
                 return response
         except Exception as e:
             return e
-
-api = NASCARWarpper()
-print(api.get_pit_data(as_dataframe=True, series=int(api.get_finished_races()[-1]["series_id"]), race_id=api.get_finished_races()[-1]["race_id"]))
