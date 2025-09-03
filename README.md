@@ -26,7 +26,7 @@ api = NASCAR_Warapper()
 schedule = api.get_season_schedule()
 ```  
   
-To get the data returned as a dataframe simple:
+To get the data returned as a dataframe is simple:
 ```python
 api = NASCARWrapper()
 schedule = api.get_season_schedule(as_dataframe=True)
