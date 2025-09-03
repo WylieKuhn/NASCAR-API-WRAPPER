@@ -31,4 +31,10 @@ To get the data returned as a dataframe simple:
 api = NASCARWrapper()
 schedule = api.get_season_schedule(as_dataframe=True)
 ```  
-
+  
+You can also next methods as building blocks to get information.  
+For instance, to get all the pit stop data for the last race:  
+```python
+api = NASCARWarpper()
+pit_stop_data = api.get_pit_data(as_dataframe=True, series=int(api.get_finished_races()[-1]["series_id"]), race_id=api.get_finished_races()[-1]["race_id"]))
+```
