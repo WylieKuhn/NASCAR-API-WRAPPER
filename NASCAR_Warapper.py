@@ -172,49 +172,25 @@ class NASCARWarpper:
             return e
 
 #In progress
-    def get_lap_data(self,race_id, lap_number = None, as_dataframe=False, year=datetime.now().year, series=1):
+    def get_current_race(self):
         try:
-            response = requests.get(f"https://cf.nascar.com/cacher/{year}/{series}/{race_id}/lap-times.json")
+            response = requests.get(f"https://cf.nascar.com/cacher/{datetime.now().year}/race_list_basic.json")
             response = response.json()
 
-            for lap in len(response["flags"]):
-                for
-                info = []
-                info = {
-                    "lap": lap,
-                    "number = "
+            current_time = datetime.now()
+            current_race = None
 
-
-                        }
-
-
-
+            for series_name in ["series_1", "series_2", "series_3"]:
+                if series_name in response:
+                    for race in response[series_name]:
+                        if datetime.fromisoformat(race["race_date"]) < current_time and race["winner_driver_id"] == None:
+                            current_race = race
+                            return current_race
+                if current_race is None:
+                    next_race = self.get_next_race()
+                    return f"No current race, the next race is the {next_race['race_name']} on {datetime.fromisoformat(next_race['race_date'])}"
 
         except Exception as e:
             return e
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-api = NASCARWarpper()
-data = api.get_lap_data(5574)
-print(data)
 
 
