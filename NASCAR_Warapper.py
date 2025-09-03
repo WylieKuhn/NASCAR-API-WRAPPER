@@ -9,6 +9,9 @@ class NASCARWarpper:
     def __init__(self):
         self.data = None
 
+    def help(self):
+        pass
+
     def get_season_schedule(self, year=datetime.now().year, series=1, as_dataframe=False):
         try:
             response = requests.get(f"https://cf.nascar.com/cacher/{year}/race_list_basic.json")
@@ -24,6 +27,13 @@ class NASCARWarpper:
             return e
 
     def get_next_race(self, as_dataframe=False):
+        """
+        This method gets the next nascar race from the Truck, O'Reilly, Or Cup Series and
+        returns is as either a dictionary or a pandas dataframe.
+
+        :param as_dataframe: bool
+        :return: dict or pandas dataframe
+        """
         try:
             response = requests.get(f"https://cf.nascar.com/cacher/{datetime.now().year}/race_list_basic.json")
             response = response.json()
