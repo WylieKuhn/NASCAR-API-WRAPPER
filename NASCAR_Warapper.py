@@ -1,10 +1,11 @@
 import pandas as pd
 from datetime import datetime
-import requests
+import niquests as requests
+
 
 class NASCARWarpper:
     def __init__(self):
-        pass
+        self.why = "I put this here so my IDE would stop yelling at me about not having a value in my init"
 
     def help(self):
         methods = dir(self)
@@ -121,9 +122,8 @@ Currently the availible methods are:
 
             races = []
 
-            for race in response[f"series_{series}"]:
-                if race["playoff_round"] == 0:
-                    races.append(race)
+            for race in response[::-10]:
+                races.append(race)
 
             if as_dataframe:
                 return pd.DataFrame(races)
@@ -142,22 +142,29 @@ Currently the availible methods are:
         :param series:
         :return: dict or pandas dataframe
         """
+        races = []
+
         try:
             response = requests.get(f"https://cf.nascar.com/cacher/{year}/race_list_basic.json")
             response = response.json()
 
-            races = []
-
-            for race in response[f"series_{series}"]:
-                if race["playoff_round"] > 0:
+            if year >= 2026:
+                for race in response[f"series_{series}"][-10:]:
                     races.append(race)
 
-            if as_dataframe:
-                return pd.DataFrame(races)
-            else:
-                return races
+                if as_dataframe:
+                    return pd.DataFrame(races)
+                else:
+                    return races
+
+            if year < 2026 and year >= 2020:
+                for race in response[f"series_{series}"]:
+                    if race["playoff_round"] != 0:
+                        races.append(race)
+                        return races
 
         except Exception as e:
+            print(e)
             return e
 
     def get_race_results(self, race_id, as_dataframe=False, year=datetime.now().year, series=1):
@@ -301,3 +308,6 @@ Currently the availible methods are:
                 return response
         except Exception as e:
             return e
+
+api = NASCARWarpper()
+
